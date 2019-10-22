@@ -16,29 +16,45 @@ namespace RegisztracioAlkalmazas
         public Form1()
         {
             InitializeComponent();
+            hobbik.Items.Add("úszás");
+            hobbik.Items.Add("horgászat");
+            hobbik.Items.Add("futás");
         }
         private void hozzaad_Click(object sender, EventArgs e)
         {
-            hobbik.Items.Add("felhasznalok.txt");
-
+            if (!ujhobbi.Text.Trim().Equals("") && hobbik.Text.Equals(ujhobbi.Text))
+            {
+                hobbik.Items.Add(ujhobbi.Text);
+            }
+            else
+            {
+                MessageBox.Show("Ez a hobbi már szerepel a listán!");
+            }
         }
         private void mentes_Click(object sender, EventArgs e)
         {
-            StreamWriter sw = new StreamWriter("felhasznalok.txt");
-
-            sw.WriteLine(nev.Text + ", " + szdatum.Text);
-
-            if (F.Checked == true) { sw.WriteLine("Férfi"); }
-            else
-            { sw.WriteLine("Nő"); }
-            sw.WriteLine(hobbik.Text);
-
-            sw.Close();
+            saveFileDialog1.Filter = "Text (.txt)|*.txt";
+            saveFileDialog1.ShowDialog();
         }
 
         private void betolt_Click(object sender, EventArgs e)
         {
-            
+            openFileDialog1.ShowDialog();
         }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
+
+            sw.WriteLine(nev.Text + "\n " + szdatum.Text);
+            
+            if (F.Checked == true) { sw.WriteLine("Férfi"); }
+            else
+            { sw.WriteLine("Nő"); }
+            sw.WriteLine(hobbik.SelectedItem);
+
+            sw.Close();
+        }
+
     }
 }
