@@ -46,7 +46,8 @@ namespace RegisztracioAlkalmazas
         {
             StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
 
-            sw.WriteLine(nev.Text + "\n " + szdatum.Text);
+            sw.WriteLine(nev.Text);
+            sw.WriteLine(szdatum.Text);
             
             if (F.Checked == true) { sw.WriteLine("Férfi"); }
             else
@@ -56,5 +57,45 @@ namespace RegisztracioAlkalmazas
             sw.Close();
         }
 
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                using (var sr = new StreamReader(openFileDialog1.FileName))
+                {
+                    hobbik.Items.Clear();
+                    hobbik.Items.Add("úszás");
+                    hobbik.Items.Add("horgászat");
+                    hobbik.Items.Add("futás");
+                    nev.Text = sr.ReadLine();
+                    szdatum.Text = sr.ReadLine();
+                    String nem = sr.ReadLine();
+                    String hobbim = sr.ReadLine();
+                    if (nem == "Férfi")
+                    {
+                        N.Checked = false;
+                        F.Checked = true;
+                    }
+                    if (nem == "Nő")
+                    {
+                        F.Checked = false;
+                        N.Checked = true;
+                    }
+                    if (!hobbik.Items.Contains(hobbim))
+                    {
+                        hobbik.Items.Add(hobbim);
+                        hobbik.SelectedItem = hobbim;
+                    }
+                    else
+                    {
+                        hobbik.SelectedItem = hobbim;
+                    }
+                }
+            }
+            catch (IOException asd)
+            {
+                MessageBox.Show(asd.Message);
+            }
+        }
     }
 }
