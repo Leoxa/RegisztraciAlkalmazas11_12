@@ -22,7 +22,7 @@ namespace RegisztracioAlkalmazas
         }
         private void hozzaad_Click(object sender, EventArgs e)
         {
-            if (!ujhobbi.Text.Trim().Equals("") && hobbik.Text.Equals(ujhobbi.Text))
+            if (!ujhobbi.Text.Trim().Equals("") && !hobbik.Text.Equals(ujhobbi.Text))
             {
                 hobbik.Items.Add(ujhobbi.Text);
             }
